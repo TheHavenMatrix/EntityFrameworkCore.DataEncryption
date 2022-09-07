@@ -1,21 +1,11 @@
 # EntityFrameworkCore.DataEncryption
 
-
-## version1.0.0
-Support Dot net core 2.1
-
-
-[![Build Status](https://dev.azure.com/eastrall/EntityFrameworkCore.DataEncryption/_apis/build/status/EntityFrameworkCore.DataEncryption?branchName=master)](https://dev.azure.com/eastrall/EntityFrameworkCore.DataEncryption/_build/latest?definitionId=9&branchName=master)
+[![Build Status](https://travis-ci.org/Eastrall/EntityFrameworkCore.DataEncryption.svg?branch=master)](https://travis-ci.org/Eastrall/EntityFrameworkCore.DataEncryption)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2bfb621fd6fc453488d022a3eec8069e)](https://www.codacy.com/app/Eastrall/EntityFrameworkCore.DataEncryption?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Eastrall/EntityFrameworkCore.DataEncryption&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/Eastrall/EntityFrameworkCore.DataEncryption/branch/master/graph/badge.svg)](https://codecov.io/gh/Eastrall/EntityFrameworkCore.DataEncryption)
 [![Nuget](https://img.shields.io/nuget/v/EntityFrameworkCore.DataEncryption.svg)](https://www.nuget.org/packages/EntityFrameworkCore.DataEncryption)
 
 `EntityFrameworkCore.DataEncryption` is a [Microsoft Entity Framework Core](https://github.com/aspnet/EntityFrameworkCore) extension to add support of encrypted fields using built-in or custom encryption providers.
-
-## Disclaimer
-
-This library has been developed initialy for a personal project of mine. It provides a simple way to encrypt column data.
-
-I **do not** take responsability if you use this in a production environment and loose your encryption key.
 
 ## How to install
 
@@ -76,8 +66,6 @@ The code bellow creates a new `AesEncryption` provider and gives it to the curre
 
 ## Create an encryption provider
 
-> :warning: This section is outdated and doesn't work for V3.0.0 and will be updated soon.
-
 `EntityFrameworkCore.DataEncryption` gives the possibility to create your own encryption providers. To do so, create a new class and make it inherit from `IEncryptionProvider`. You will need to implement the `Encrypt(string)` and `Decrypt(string)` methods.
 
 ```csharp
@@ -113,36 +101,3 @@ public class DatabaseContext : DbContext
 	}
 }
 ```
-
-## Important notes
-
-### AES Provider structure
-
-The following section describes how encrypted fields using the built-in AES provider encrypts data.
-There is two available modes :
-
-* Fixed IV
-* Dynamic IV
-
-#### Fixed IV
-
-A fixed IV is generated at setup and is used for every encrypted fields on the database.
-This might be a security issue depending on your context.
-
-#### Dynamic IV
-
-For each encrypted field, the provider generates a new IV with a length of `16 bytes`. These 16 bytes are written at the begining of the `CryptoStream` followed by the actual input to encrypt.
-
-Similarly, for reading, the provider reads the first **16 bytes** from the input data converted as a `byte[]` to retrieve the initialization vector and then read the encrypted content.
-
-For more information, checkout the [`AesProvider`](https://github.com/Eastrall/EntityFrameworkCore.DataEncryption/blob/master/src/EntityFrameworkCore.DataEncryption/Providers/AesProvider.cs#L58) class.
-
-> :warning: When using Dynamic IV, you cannot use the Entity Framework LINQ extensions because the provider will generate a new IV per value, which will create unexpected behaviors.
-
-## Thanks
-
-I would like to thank all the people that supports and contributes to the project and helped to improve the library. :smile:
-
-## Credits
-
-Package Icon : from [Icons8](https://icons8.com/)

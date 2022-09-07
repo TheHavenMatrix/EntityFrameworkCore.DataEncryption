@@ -3,11 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-gitcommand.txt
-version1.0.0/EntityFrameworkCore.DataEncryption/src/EntityFrameworkCore.DataEncryption
-
-
-
 # User-specific files
 *.rsuser
 *.suo
